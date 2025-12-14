@@ -1,4 +1,4 @@
-package mc.shiracraft.core.casino.items;
+package mc.shiracraft.core.items;
 
 import net.minecraft.world.item.Item;
 

@@ -1,7 +1,8 @@
 package mc.shiracraft.core;
 
 import com.mojang.logging.LogUtils;
-import mc.shiracraft.core.casino.CasinoRegistryHandler;
+import mc.shiracraft.core.registries.RegistryHandler;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -14,22 +15,19 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
 
-@Mod(Core.MODID)
+@Mod(Core.MOD_ID)
 public class Core {
-    private static final Logger LOGGER = LogUtils.getLogger();
-    public static final String MODID = "shiracraft";
+    public static final Logger LOGGER = LogUtils.getLogger();
+    public static final String MOD_ID = "shiracraft";
 
     public Core(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
 
-        // Register the commonSetup method for modloading
         modEventBus.addListener(this::coreSetup);
-        CasinoRegistryHandler.register(modEventBus);
+        RegistryHandler.registerAll(modEventBus);
 
-        // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
-        // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
@@ -50,5 +48,13 @@ public class Core {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+    }
+
+    public static String sId(String name) {
+        return MOD_ID + ":" + name;
+    }
+
+    public static ResourceLocation id(String name) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
     }
 }

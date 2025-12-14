@@ -1,4 +1,4 @@
-package mc.shiracraft.core.client;
+package mc.shiracraft.core.events;
 
 import com.mojang.logging.LogUtils;
 import mc.shiracraft.core.Core;
@@ -10,8 +10,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.slf4j.Logger;
 
 // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-@Mod.EventBusSubscriber(modid = Core.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ClientModEvents
+@Mod.EventBusSubscriber(modid = Core.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+public class ClientEvents
 {
     private static final Logger LOGGER = LogUtils.getLogger();
 
