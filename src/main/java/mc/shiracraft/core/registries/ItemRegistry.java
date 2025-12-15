@@ -12,8 +12,8 @@ import net.minecraftforge.registries.RegistryObject;
 public class ItemRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Core.MOD_ID);
 
-    protected static RegistryObject<Item> SLOT_COIN = ITEMS.register(SlotCoin.ITEM_NAME, SlotCoin::new);
-    protected static RegistryObject<Item> PITY_TOKEN = ITEMS.register(PityToken.ITEM_NAME, PityToken::new);
+    public static RegistryObject<Item> SLOT_COIN = ITEMS.register(SlotCoin.ITEM_NAME, SlotCoin::new);
+    public static RegistryObject<Item> PITY_TOKEN = ITEMS.register(PityToken.ITEM_NAME, PityToken::new);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
