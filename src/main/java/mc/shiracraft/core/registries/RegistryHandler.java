@@ -10,5 +10,6 @@ public final class RegistryHandler {
      */
     public static void registerAll(IEventBus eventBus) {
         ItemRegistry.register(eventBus);
+        CreativeTabsRegistry.register(eventBus);
     }
 }
