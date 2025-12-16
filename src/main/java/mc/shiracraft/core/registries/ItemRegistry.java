@@ -1,6 +1,7 @@
 package mc.shiracraft.core.registries;
 
 import mc.shiracraft.core.Core;
+import mc.shiracraft.core.items.MelonSoda;
 import mc.shiracraft.core.items.PityToken;
 import mc.shiracraft.core.items.SlotCoin;
 import net.minecraft.world.item.Item;
@@ -14,6 +15,7 @@ public class ItemRegistry {
 
     public static RegistryObject<Item> SLOT_COIN = ITEMS.register(SlotCoin.ITEM_NAME, SlotCoin::new);
     public static RegistryObject<Item> PITY_TOKEN = ITEMS.register(PityToken.ITEM_NAME, PityToken::new);
+    public static RegistryObject<Item> MELON_SODA = ITEMS.register(MelonSoda.ITEM_NAME, MelonSoda::new);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

@@ -19,6 +19,7 @@ public class CreativeTabsRegistry {
                 // Add items to the creative tab
                 output.accept(ItemRegistry.SLOT_COIN.get());
                 output.accept(ItemRegistry.PITY_TOKEN.get());
+                output.accept(ItemRegistry.MELON_SODA.get());
             })
             .build());
 
