@@ -1,4 +1,4 @@
-package mc.shiracraft.core.unlocks;
+package mc.shiracraft.core.unlock;
 
 public enum UnlockCategory {
     TECHNICAL_MOD,

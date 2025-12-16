@@ -1,4 +1,4 @@
-package mc.shiracraft.core.registries;
+package mc.shiracraft.core.registry;
 
 import mc.shiracraft.core.Core;
 import net.minecraft.core.registries.Registries;

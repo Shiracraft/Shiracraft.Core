@@ -1,10 +1,10 @@
-package mc.shiracraft.core.unlocks.types;
+package mc.shiracraft.core.unlock.types;
 
 import com.google.gson.annotations.Expose;
-import mc.shiracraft.core.unlocks.Unlock;
-import mc.shiracraft.core.unlocks.UnlockCategory;
-import mc.shiracraft.core.unlocks.restriction.RestrictionType;
-import mc.shiracraft.core.unlocks.restriction.Restrictions;
+import mc.shiracraft.core.unlock.Unlock;
+import mc.shiracraft.core.unlock.UnlockCategory;
+import mc.shiracraft.core.unlock.restriction.RestrictionType;
+import mc.shiracraft.core.unlock.restriction.Restrictions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;

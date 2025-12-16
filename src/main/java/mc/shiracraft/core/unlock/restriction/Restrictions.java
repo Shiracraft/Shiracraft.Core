@@ -1,4 +1,4 @@
-package mc.shiracraft.core.unlocks.restriction;
+package mc.shiracraft.core.unlock.restriction;
 
 import com.google.gson.annotations.Expose;
 
