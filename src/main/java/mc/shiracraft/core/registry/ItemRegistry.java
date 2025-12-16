@@ -1,9 +1,9 @@
-package mc.shiracraft.core.registries;
+package mc.shiracraft.core.registry;
 
 import mc.shiracraft.core.Core;
-import mc.shiracraft.core.items.MelonSoda;
-import mc.shiracraft.core.items.PityToken;
-import mc.shiracraft.core.items.SlotCoin;
+import mc.shiracraft.core.item.MelonSoda;
+import mc.shiracraft.core.item.PityToken;
+import mc.shiracraft.core.item.SlotCoin;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

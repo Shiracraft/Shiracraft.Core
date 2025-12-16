@@ -1,7 +1,7 @@
-package mc.shiracraft.core.unlocks;
+package mc.shiracraft.core.unlock;
 
 import com.google.gson.annotations.Expose;
-import mc.shiracraft.core.unlocks.restriction.RestrictionType;
+import mc.shiracraft.core.unlock.restriction.RestrictionType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;

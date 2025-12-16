@@ -1,6 +1,8 @@
-package mc.shiracraft.core.registries;
+package mc.shiracraft.core.registry;
 
+import mc.shiracraft.core.config.SlotMachineConfig;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 public final class RegistryHandler {
 
@@ -11,5 +13,9 @@ public final class RegistryHandler {
     public static void registerAll(IEventBus eventBus) {
         ItemRegistry.register(eventBus);
         CreativeTabsRegistry.register(eventBus);
+    }
+
+    public static void registerConfigs(FMLJavaModLoadingContext context) {
+        SlotMachineConfig.register(context);
     }
 }

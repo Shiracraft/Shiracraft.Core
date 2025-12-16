@@ -1,4 +1,4 @@
-package mc.shiracraft.core.unlocks.restriction;
+package mc.shiracraft.core.unlock.restriction;
 
 public enum RestrictionType {
     USABILITY, // Right click with an item, or placement with blocks

@@ -1,8 +1,8 @@
-package mc.shiracraft.core.unlocks.types;
+package mc.shiracraft.core.unlock.types;
 
-import mc.shiracraft.core.unlocks.Unlock;
-import mc.shiracraft.core.unlocks.UnlockCategory;
-import mc.shiracraft.core.unlocks.restriction.RestrictionType;
+import mc.shiracraft.core.unlock.Unlock;
+import mc.shiracraft.core.unlock.UnlockCategory;
+import mc.shiracraft.core.unlock.restriction.RestrictionType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
