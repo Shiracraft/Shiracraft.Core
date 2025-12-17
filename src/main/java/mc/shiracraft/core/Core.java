@@ -1,6 +1,7 @@
 package mc.shiracraft.core;
 
 import com.mojang.logging.LogUtils;
+import mc.shiracraft.core.registry.ConfigRegistry;
 import mc.shiracraft.core.registry.RegistryHandler;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,11 +21,10 @@ public class Core {
     public Core(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
 
+        ConfigRegistry.registerConfigs();
         RegistryHandler.registerAll(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
-
-        RegistryHandler.registerConfigs(context);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
