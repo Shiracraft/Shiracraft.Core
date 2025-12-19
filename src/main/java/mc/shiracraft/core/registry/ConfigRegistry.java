@@ -1,11 +1,11 @@
 package mc.shiracraft.core.registry;
 
-import mc.shiracraft.core.config.ModUnlockConfig;
+import mc.shiracraft.core.config.UnlockConfig;
 
 public class ConfigRegistry {
-    public static ModUnlockConfig MOD_UNLOCK_CONFIG;
+    public static UnlockConfig UNLOCK_CONFIG;
 
     public static void registerConfigs() {
-        MOD_UNLOCK_CONFIG = new ModUnlockConfig().readConfig();
+        UNLOCK_CONFIG = new UnlockConfig().readConfig();
     }
 }
