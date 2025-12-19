@@ -1,5 +1,6 @@
 package mc.shiracraft.core.registry;
 
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 public final class RegistryHandler {
@@ -11,6 +12,14 @@ public final class RegistryHandler {
     public static void registerAll(IEventBus eventBus) {
         ItemRegistry.register(eventBus);
         CreativeTabsRegistry.register(eventBus);
+        CommandArgumentRegistry.register(eventBus);
     }
 
+    public static void registerConfigs() {
+        ConfigRegistry.registerConfigs();
+    }
+
+    public static void onCommandRegister(RegisterCommandsEvent event) {
+        CommandRegistry.registerCommands(event.getDispatcher());
+    }
 }

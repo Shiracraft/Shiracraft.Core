@@ -1,5 +1,6 @@
 package mc.shiracraft.core.unlock.types;
 
+import com.google.gson.annotations.Expose;
 import mc.shiracraft.core.unlock.Unlock;
 import mc.shiracraft.core.unlock.UnlockCategory;
 import mc.shiracraft.core.unlock.restriction.RestrictionType;
@@ -16,7 +17,9 @@ import java.util.Set;
 
 public class ModUnlock extends Unlock {
 
+    @Expose
     protected Set<String> modIds;
+    @Expose
     protected Restrictions restrictions;
 
     public ModUnlock(String name, UnlockCategory category, String... modIds) {
