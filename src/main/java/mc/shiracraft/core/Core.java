@@ -1,6 +1,7 @@
 package mc.shiracraft.core;
 
 import com.mojang.logging.LogUtils;
+import mc.shiracraft.core.event.ServerEvents;
 import mc.shiracraft.core.registry.RegistryHandler;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,6 +26,7 @@ public class Core {
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.addListener(RegistryHandler::onCommandRegister);
+        MinecraftForge.EVENT_BUS.addListener(ServerEvents::onPlayerLoggedIn);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
