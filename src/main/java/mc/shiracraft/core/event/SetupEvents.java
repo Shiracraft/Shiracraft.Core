@@ -1,6 +1,7 @@
 package mc.shiracraft.core.event;
 
 import mc.shiracraft.core.Core;
+import mc.shiracraft.core.network.ShiracraftNetwork;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -18,6 +19,9 @@ public class SetupEvents {
     @SubscribeEvent
     public static void setupCommon(final FMLCommonSetupEvent event) {
         Core.LOGGER.info("Shiracraft.Core is being set-up...");
+
+        // Register network messages during common setup
+        event.enqueueWork(ShiracraftNetwork::register);
     }
 
     @SubscribeEvent

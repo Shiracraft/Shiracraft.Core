@@ -18,8 +18,6 @@ public class ServerEvents {
 
         if (server == null) return;
 
-        var overworld = server.overworld();
-
-        UnlockData.get(overworld).getUnlockTree(player);
+        UnlockData.get().getUnlockTree(player).sync(server);
     }
 }

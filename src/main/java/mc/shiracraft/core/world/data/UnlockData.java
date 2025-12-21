@@ -3,10 +3,10 @@ package mc.shiracraft.core.world.data;
 import mc.shiracraft.core.unlock.Unlock;
 import mc.shiracraft.core.unlock.UnlockTree;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.saveddata.SavedData;
-import org.jetbrains.annotations.UnknownNullability;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -24,9 +24,21 @@ public class UnlockData extends SavedData {
         return this.unlockTreeMap.computeIfAbsent(uuid, UnlockTree::new);
     }
 
-    public UnlockData unlock(Player player, Unlock unlock) {
+    public UnlockData unlock(Player player, String unlockName) {
         UnlockTree unlockTree = getUnlockTree(player);
-        unlockTree.unlock(unlock.getName());
+        unlockTree.unlock(unlockName);
+
+        unlockTree.sync(player.getServer());
+
+        setDirty();
+        return this;
+    }
+
+    public UnlockData restrict(Player player, String unlockName) {
+        UnlockTree unlockTree = getUnlockTree(player);
+        unlockTree.restrict(unlockName);
+
+        unlockTree.sync(player.getServer());
 
         setDirty();
         return this;
@@ -35,6 +47,8 @@ public class UnlockData extends SavedData {
     public UnlockData resetUnlockTree(Player player) {
         UnlockTree unlockTree = getUnlockTree(player);
         unlockTree.reset();
+
+        unlockTree.sync(player.getServer());
 
         setDirty();
         return this;
@@ -74,7 +88,9 @@ public class UnlockData extends SavedData {
         return data;
     }
 
-    public static UnlockData get(ServerLevel serverLevel) {
+    public static UnlockData get() {
+        var server = ServerLifecycleHooks.getCurrentServer();
+        var serverLevel = server.overworld();
         return serverLevel.getDataStorage()
                 .computeIfAbsent(
                         UnlockData::load,
