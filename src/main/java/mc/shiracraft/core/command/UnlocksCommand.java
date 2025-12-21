@@ -6,9 +6,15 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mc.shiracraft.core.command.arguments.UnlockNameArgument;
 import mc.shiracraft.core.registry.ConfigRegistry;
 import mc.shiracraft.core.unlock.restriction.RestrictionManager;
+import mc.shiracraft.core.world.data.UnlockData;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.selector.EntitySelector;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+
+import java.util.List;
 
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
@@ -16,6 +22,7 @@ import static net.minecraft.commands.Commands.literal;
 public class UnlocksCommand extends Command {
 
     private static final String UnlockNameArgumentIdentifier = "unlock_name";
+    private static final String PlayerArgumentIdentifier = "player";
 
     @Override
     public String getName() {
@@ -29,31 +36,32 @@ public class UnlocksCommand extends Command {
 
     @Override
     public void build(LiteralArgumentBuilder<CommandSourceStack> builder) {
-        builder.then(literal("unlock")
-                        .then(argument("player", EntityArgument.players())
-                                .then(argument(UnlockNameArgumentIdentifier, UnlockNameArgument.options())
-                                        .executes(this::unlock)
-                                )
+        // TODO: Test restructure of command
+        builder.then(argument(PlayerArgumentIdentifier, EntityArgument.players())
+                .then(literal("unlock")
+                        .then(argument(UnlockNameArgumentIdentifier, UnlockNameArgument.options())
+                                .executes(this::unlock)
                         )
                 )
                 .then(literal("restrict")
-                        .then(argument("player", EntityArgument.players())
-                                .then(argument(UnlockNameArgumentIdentifier, UnlockNameArgument.options())
-                                        .executes(this::restrict))
+                        .then(argument(UnlockNameArgumentIdentifier, UnlockNameArgument.options())
+                                .executes(this::restrict)
                         )
-                );
+                )
+        );
     }
 
     private int unlock(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         if (!context.getSource().isPlayer()) return 0;
 
         var unlockName = getUnlockName(context);
-        var player = context.getSource().getPlayer();
-        var unlockTree = RestrictionManager.getUnlockTree(player);
-        unlockTree.unlock(unlockName);
+        var players = getPlayers(context);
+        var unlockData = UnlockData.get();
 
-        player.sendSystemMessage(Component.literal(String.format("You unlocked \"%s\"!", unlockName)));
-
+        players.forEach(player -> {
+            unlockData.unlock(player, unlockName);
+            player.sendSystemMessage(Component.literal(String.format("You unlocked \"%s\"!", unlockName)));
+        });
         return 0;
     }
 
@@ -61,12 +69,19 @@ public class UnlocksCommand extends Command {
         if (!context.getSource().isPlayer()) return 0;
 
         var unlockName = getUnlockName(context);
-        var player = context.getSource().getPlayer();
-        var unlockTree = RestrictionManager.getUnlockTree(player);
-        unlockTree.restrict(unlockName);
+        var players = getPlayers(context);
+        var unlockData = UnlockData.get();
 
-        player.sendSystemMessage(Component.literal(String.format("Your access to \"%s\" has been restricted!", unlockName)));
+        players.forEach(player -> {
+            unlockData.restrict(player, unlockName);
+            player.sendSystemMessage(Component.literal(String.format("Your access to \"%s\" has been restricted!", unlockName)));
+        });
         return 0;
+    }
+
+    private List<ServerPlayer> getPlayers(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        var playerArgument = context.getArgument(PlayerArgumentIdentifier, EntitySelector.class);
+        return playerArgument.findPlayers(context.getSource());
     }
 
     private String getUnlockName(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
