@@ -34,7 +34,6 @@ public class UnlocksCommand extends Command {
 
     @Override
     public void build(LiteralArgumentBuilder<CommandSourceStack> builder) {
-        // TODO: Test restructure of command
         builder.then(argument(PlayerArgumentIdentifier, EntityArgument.players())
                 .then(literal("unlock")
                         .then(argument(UnlockNameArgumentIdentifier, UnlockNameArgument.options())
@@ -88,7 +87,7 @@ public class UnlocksCommand extends Command {
 
         players.forEach(player -> {
             unlockData.resetUnlockTree(player);
-            player.sendSystemMessage(Component.literal("Your research tree has been reset!"));
+            player.sendSystemMessage(Component.literal("Your unlock tree has been reset!"));
         });
 
         return 1;

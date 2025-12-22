@@ -8,8 +8,7 @@ import java.io.*;
 
 /**
  * Configuration will be loaded on startup and cannot be reloaded at runtime.
- * TODO: Generating and reading config files through json is likely not the most efficient or the correct way to do this.
- *       Consider switching to a different method in the future.
+ * TODO: Implement reload logic, preferably on the /reload command trigger.
  */
 public abstract class Config {
 
