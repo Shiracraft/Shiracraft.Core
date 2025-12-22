@@ -22,6 +22,9 @@ public abstract class Unlock {
     public String getName() {
         return name;
     }
+    public UnlockCategory getCategory() {
+        return category;
+    }
 
     public abstract boolean restricts(Item item, RestrictionType restrictionType);
 

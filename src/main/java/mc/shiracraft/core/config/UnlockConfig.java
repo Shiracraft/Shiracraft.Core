@@ -20,10 +20,6 @@ public class UnlockConfig extends Config {
     public UnlockConfig() {
         modUnlocks = new LinkedList<>();
         customUnlocks = new LinkedList<>();
-        modUnlocks.add(
-                new ModUnlock("Minecraft", UnlockCategory.OTHER, "minecraft")
-                        .withRestrictions(false, false, false, true, false)
-        );
     }
 
     public List<Unlock> getAll() {
@@ -49,6 +45,9 @@ public class UnlockConfig extends Config {
 
     @Override
     protected void reset() {
-
+        modUnlocks.add(
+                new ModUnlock("Minecraft", UnlockCategory.OTHER, "minecraft")
+                        .withRestrictions(false, false, false, true, false)
+        );
     }
 }

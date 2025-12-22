@@ -30,6 +30,10 @@ public class UnlockTree implements INBTSerializable<CompoundTag> {
         this.playerUUID = playerUUID;
     }
 
+    public boolean isUnlocked(String unlockName) {
+        return unlockedItems.contains(unlockName);
+    }
+
     public void unlock(String unlockName) {
         if (unlockedItems.contains(unlockName)) return;
         unlockedItems.add(unlockName);

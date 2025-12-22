@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import mc.shiracraft.core.Core;
 import mc.shiracraft.core.command.Command;
+import mc.shiracraft.core.command.SlotsCommand;
 import mc.shiracraft.core.command.UnlocksCommand;
 import net.minecraft.commands.CommandSourceStack;
 
@@ -13,9 +14,11 @@ import static net.minecraft.commands.Commands.literal;
 
 public class CommandRegistry {
     public static UnlocksCommand UNLOCK_COMMAND;
+    public static SlotsCommand SLOTS_COMMAND;
 
     public static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher) {
         UNLOCK_COMMAND = registerCommand(UnlocksCommand::new, dispatcher);
+        SLOTS_COMMAND = registerCommand(SlotsCommand::new, dispatcher);
     }
 
     public static <T extends Command> T registerCommand(Supplier<T> supplier, CommandDispatcher<CommandSourceStack> dispatcher) {
