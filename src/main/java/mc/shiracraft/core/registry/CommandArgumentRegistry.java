@@ -1,6 +1,7 @@
 package mc.shiracraft.core.registry;
 
 import mc.shiracraft.core.Core;
+import mc.shiracraft.core.command.arguments.UnlockCategoryArgument;
 import mc.shiracraft.core.command.arguments.UnlockNameArgument;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.commands.synchronization.ArgumentTypeInfos;
@@ -18,6 +19,11 @@ public class CommandArgumentRegistry {
             COMMAND_ARGUMENTS.register("unlock_name", () ->
                     ArgumentTypeInfos.registerByClass(UnlockNameArgument.class,
                             SingletonArgumentInfo.contextFree(UnlockNameArgument::options)));
+
+    public static final RegistryObject<ArgumentTypeInfo<?, ?>> UNLOCK_CATEGORY_ARGUMENT =
+            COMMAND_ARGUMENTS.register("unlock_category", () ->
+                    ArgumentTypeInfos.registerByClass(UnlockCategoryArgument.class,
+                            SingletonArgumentInfo.contextFree(UnlockCategoryArgument::options)));
 
     public static void register(IEventBus eventBus) {
         COMMAND_ARGUMENTS.register(eventBus);
