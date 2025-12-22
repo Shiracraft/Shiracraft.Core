@@ -19,8 +19,6 @@ public class SetupEvents {
     @SubscribeEvent
     public static void setupCommon(final FMLCommonSetupEvent event) {
         Core.LOGGER.info("Shiracraft.Core is being set-up...");
-
-        // Register network messages during common setup
         event.enqueueWork(ShiracraftNetwork::register);
     }
 

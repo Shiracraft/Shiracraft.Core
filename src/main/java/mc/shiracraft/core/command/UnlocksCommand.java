@@ -5,14 +5,12 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mc.shiracraft.core.command.arguments.UnlockNameArgument;
 import mc.shiracraft.core.registry.ConfigRegistry;
-import mc.shiracraft.core.unlock.restriction.RestrictionManager;
 import mc.shiracraft.core.world.data.UnlockData;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.selector.EntitySelector;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
@@ -31,7 +29,7 @@ public class UnlocksCommand extends Command {
 
     @Override
     public CommandPermissionLevel getPermissionLevel() {
-        return CommandPermissionLevel.EVERYONE;
+        return CommandPermissionLevel.MODERATOR;
     }
 
     @Override
@@ -48,6 +46,9 @@ public class UnlocksCommand extends Command {
                                 .executes(this::restrict)
                         )
                 )
+                .then(literal("reset")
+                        .executes(this::reset)
+                )
         );
     }
 
@@ -62,7 +63,7 @@ public class UnlocksCommand extends Command {
             unlockData.unlock(player, unlockName);
             player.sendSystemMessage(Component.literal(String.format("You unlocked \"%s\"!", unlockName)));
         });
-        return 0;
+        return 1;
     }
 
     private int restrict(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
@@ -76,7 +77,21 @@ public class UnlocksCommand extends Command {
             unlockData.restrict(player, unlockName);
             player.sendSystemMessage(Component.literal(String.format("Your access to \"%s\" has been restricted!", unlockName)));
         });
-        return 0;
+        return 1;
+    }
+
+    private int reset(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        if (!context.getSource().isPlayer()) return 0;
+
+        var players = getPlayers(context);
+        var unlockData = UnlockData.get();
+
+        players.forEach(player -> {
+            unlockData.resetUnlockTree(player);
+            player.sendSystemMessage(Component.literal("Your research tree has been reset!"));
+        });
+
+        return 1;
     }
 
     private List<ServerPlayer> getPlayers(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
