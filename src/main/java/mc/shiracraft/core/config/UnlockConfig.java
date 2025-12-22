@@ -34,9 +34,9 @@ public class UnlockConfig extends Config {
     }
 
     public @Nullable Unlock getByName(String name) {
-        for (var research : getAll()) {
-            if (research.getName().equals(name)) {
-                return research;
+        for (var unlock : getAll()) {
+            if (unlock.getName().equals(name)) {
+                return unlock;
             }
         }
         return null;
