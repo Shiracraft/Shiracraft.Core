@@ -28,6 +28,6 @@ public class ShiracraftNetwork {
                 .consumerMainThread(UnlockTreeMessage::handle)
                 .add();
 
-        Core.LOGGER.info("Network messages registered: UnlockMessage (ID 0), UnlockTreeMessage (ID 1)");
+        Core.LOGGER.info("Network messages registered!");
     }
 }

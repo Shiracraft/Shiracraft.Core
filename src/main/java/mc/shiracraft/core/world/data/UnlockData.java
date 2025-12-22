@@ -1,9 +1,7 @@
 package mc.shiracraft.core.world.data;
 
-import mc.shiracraft.core.unlock.Unlock;
 import mc.shiracraft.core.unlock.UnlockTree;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraftforge.server.ServerLifecycleHooks;

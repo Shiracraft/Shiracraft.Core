@@ -13,9 +13,6 @@ public class UnlockTreeMessage {
     public UnlockTree unlockTree;
     public UUID uuid;
 
-    public UnlockTreeMessage() {
-    }
-
     public UnlockTreeMessage(UnlockTree unlockTree, UUID uuid) {
         this.unlockTree = unlockTree;
         this.uuid = uuid;
@@ -23,15 +20,7 @@ public class UnlockTreeMessage {
 
     public static void encode(UnlockTreeMessage message, FriendlyByteBuf buffer) {
         buffer.writeUUID(message.uuid);
-
         var nbt = message.unlockTree.serializeNBT();
-
-        // Log the size for debugging
-        Core.LOGGER.debug("Encoding UnlockTree for player {} with {} unlocks",
-            message.uuid,
-            nbt.getList("Unlocks", 8).size()
-        );
-
         buffer.writeNbt(nbt);
     }
 
@@ -64,11 +53,7 @@ public class UnlockTreeMessage {
         context.setPacketHandled(true);
     }
 
-    /**
-     * Handle the message on client side - update the client's unlock tree cache
-     */
     private static void handleClient(UnlockTreeMessage message) {
-        Core.LOGGER.debug("Client received UnlockTree sync for player {}", message.uuid);
         RestrictionManager.UNLOCK_TREE = message.unlockTree;
     }
 }
