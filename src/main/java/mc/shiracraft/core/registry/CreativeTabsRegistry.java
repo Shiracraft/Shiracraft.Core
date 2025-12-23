@@ -20,6 +20,8 @@ public class CreativeTabsRegistry {
                 output.accept(ItemRegistry.SLOT_COIN.get());
                 output.accept(ItemRegistry.PITY_TOKEN.get());
                 output.accept(ItemRegistry.MELON_SODA.get());
+                // Add blocks
+                output.accept(ItemRegistry.SLOT_MACHINE_BLOCK_ITEM.get());
             })
             .build());
 

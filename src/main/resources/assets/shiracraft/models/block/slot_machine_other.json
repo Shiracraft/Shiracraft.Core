@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "shiracraft:block/slot_machine_other_front",
+    "down": "shiracraft:block/slot_machine_other_top",
+    "up": "shiracraft:block/slot_machine_other_top",
+    "north": "shiracraft:block/slot_machine_other_front",
+    "south": "shiracraft:block/slot_machine_other_side",
+    "west": "shiracraft:block/slot_machine_other_side",
+    "east": "shiracraft:block/slot_machine_other_side"
+  }
+}
+

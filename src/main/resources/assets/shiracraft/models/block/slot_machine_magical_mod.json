@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "shiracraft:block/slot_machine_magical_mod_front",
+    "down": "shiracraft:block/slot_machine_magical_mod_top",
+    "up": "shiracraft:block/slot_machine_magical_mod_top",
+    "north": "shiracraft:block/slot_machine_magical_mod_front",
+    "south": "shiracraft:block/slot_machine_magical_mod_side",
+    "west": "shiracraft:block/slot_machine_magical_mod_side",
+    "east": "shiracraft:block/slot_machine_magical_mod_side"
+  }
+}
+

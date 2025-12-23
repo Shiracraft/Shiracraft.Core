@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "category=technical_mod": {
+      "model": "shiracraft:block/slot_machine_technical_mod"
+    },
+    "category=magical_mod": {
+      "model": "shiracraft:block/slot_machine_magical_mod"
+    },
+    "category=food_mod": {
+      "model": "shiracraft:block/slot_machine_food_mod"
+    },
+    "category=other": {
+      "model": "shiracraft:block/slot_machine_other"
+    }
+  }
+}
+
