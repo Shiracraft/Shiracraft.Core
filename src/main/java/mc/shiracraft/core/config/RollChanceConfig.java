@@ -27,6 +27,7 @@ public class RollChanceConfig extends Config {
         return "roll_chances";
     }
 
+    // TODO; Fix initialisation, rolling crashes without setting the chances in the config
     @Override
     protected void reset() {
 

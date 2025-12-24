@@ -1,5 +1,6 @@
 package mc.shiracraft.core.casino;
 
+import mc.shiracraft.core.Core;
 import mc.shiracraft.core.casino.randomisation.RollService;
 import mc.shiracraft.core.casino.reward.RewardType;
 import mc.shiracraft.core.registry.ConfigRegistry;
@@ -19,10 +20,11 @@ import java.util.Random;
 
 public class SlotMachine {
 
-    // TODO: Call upon slot machine interaction
     public static void rollSlots(Player player, UnlockCategory category) {
         final int SLOT_COINS_PER_ROLL = 1;
-        if (!deductSlotCoins(player, SLOT_COINS_PER_ROLL)) {
+        List<ItemStack> deductedCoins = deductSlotCoins(player, SLOT_COINS_PER_ROLL);
+
+        if (deductedCoins == null) {
             player.sendSystemMessage(Component.literal("You don't have enough slot coins to roll!"));
             return;
         }
@@ -31,29 +33,33 @@ public class SlotMachine {
             var rewardType = RollService.roll(category);
 
             if (rewardType == RewardType.UNLOCK) {
-                rollUnlocks(player, category);
-                return;
+                var unlockRollSuccess = rollUnlocks(player, category);
+                if (unlockRollSuccess) return;
+                rewardType = RewardType.REFUND;
             }
 
             // TODO: Improve reward system and visualisation
             player.sendSystemMessage(Component.literal(String.format("You received a reward: %s", rewardType.name())));
         } catch (Exception e) {
-            refundDeductedCoins(player, SLOT_COINS_PER_ROLL);
+            Core.LOGGER.error("Error rolling slots!", e);
+            refundDeductedCoins(player, deductedCoins);
             throw e;
         }
     }
 
-    private static void refundDeductedCoins(Player player, int cost) {
-        player.getInventory().add(cost, ItemRegistry.SLOT_COIN.get().getDefaultInstance());
+    private static void refundDeductedCoins(Player player, List<ItemStack> deductedCoins) {
+        for (ItemStack coinStack : deductedCoins) {
+            player.getInventory().placeItemBackInInventory(coinStack);
+        }
     }
 
     /**
      * Attempts to deduct slot coins from the player's inventory.
      * @param player The player to deduct coins from
      * @param cost The number of slot coins to deduct
-     * @return true if the player had enough coins and they were deducted, false otherwise
+     * @return List of ItemStacks that were deducted, or null if the player didn't have enough coins
      */
-    private static boolean deductSlotCoins(Player player, int cost) {
+    private static List<ItemStack> deductSlotCoins(Player player, int cost) {
         var inventory = player.getInventory();
         Item slotCoinItem = ItemRegistry.SLOT_COIN.get();
 
@@ -71,10 +77,11 @@ public class SlotMachine {
 
         // Check if player has enough coins
         if (totalCoins < cost) {
-            return false;
+            return null;
         }
 
-        // Deduct from tracked stacks only
+        // Deduct from tracked stacks and store the deducted amounts
+        List<ItemStack> deductedCoins = new ArrayList<>();
         int remaining = cost;
         for (ItemStack coinStack : coinStacks) {
             if (remaining <= 0) break;
@@ -82,12 +89,21 @@ public class SlotMachine {
             int toDeduct = Math.min(remaining, coinStack.getCount());
             coinStack.shrink(toDeduct);
             remaining -= toDeduct;
+
+            // Store the deducted amount as a new ItemStack for potential refund
+            deductedCoins.add(new ItemStack(slotCoinItem, toDeduct));
         }
 
-        return true;
+        return deductedCoins;
     }
 
-    private static void rollUnlocks(Player player, UnlockCategory category) {
+    /**
+     * Rolls a random unlock from the given category and unlocks it for the player.
+     * @param player The player to grant the unlock for
+     * @param category The category to roll unlocks from
+     * @return true if an unlock was granted, false otherwise
+     */
+    private static boolean rollUnlocks(Player player, UnlockCategory category) {
         var unlockData = UnlockData.get();
         var unlockTree = unlockData.getUnlockTree(player);
         var unlocks = ConfigRegistry.UNLOCK_CONFIG
@@ -97,11 +113,14 @@ public class SlotMachine {
                         && !unlockTree.isUnlocked(unlock.getName()))
                 .toList();
 
+        if (unlocks.isEmpty()) return false;
+
         var random = new Random(RandomUtils.getSeed());
         var unlock = unlocks.get(random.nextInt(unlocks.size()));
         unlockData.unlock(player, unlock.getName());
 
         displayUnlockRewards(player, unlock);
+        return true;
     }
 
     private static void displayUnlockRewards(Player player, Unlock unlock) {
