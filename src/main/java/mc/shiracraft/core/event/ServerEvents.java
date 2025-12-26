@@ -1,10 +1,12 @@
 package mc.shiracraft.core.event;
 
 import mc.shiracraft.core.Core;
+import mc.shiracraft.core.registry.ConfigRegistry;
 import mc.shiracraft.core.world.data.UnlockData;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -18,5 +20,9 @@ public class ServerEvents {
         if (server == null) return;
 
         UnlockData.get().getUnlockTree(player).sync(server);
+    }
+
+    public static void onDatapackSync(OnDatapackSyncEvent event) {
+        ConfigRegistry.reloadConfigs();
     }
 }

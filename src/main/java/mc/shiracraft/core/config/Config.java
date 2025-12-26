@@ -7,8 +7,8 @@ import mc.shiracraft.core.Core;
 import java.io.*;
 
 /**
- * Configuration will be loaded on startup and cannot be reloaded at runtime.
- * TODO: Implement reload logic, preferably on the /reload command trigger.
+ * Configuration will be loaded on startup and can be reloaded at runtime via the /reload command.
+ * Reload is handled by listening to OnDatapackSyncEvent in ServerEvents.
  */
 public abstract class Config {
 

@@ -27,6 +27,7 @@ public class Core {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.addListener(RegistryHandler::onCommandRegister);
         MinecraftForge.EVENT_BUS.addListener(ServerEvents::onPlayerLoggedIn);
+        MinecraftForge.EVENT_BUS.addListener(ServerEvents::onDatapackSync);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
