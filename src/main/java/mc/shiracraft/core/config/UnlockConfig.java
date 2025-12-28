@@ -45,6 +45,9 @@ public class UnlockConfig extends Config {
 
     @Override
     protected void reset() {
+        modUnlocks.clear();
+        customUnlocks.clear();
+
         modUnlocks.add(
                 new ModUnlock("Minecraft", UnlockCategory.OTHER, "minecraft")
                         .withRestrictions(false, false, false, true, false)

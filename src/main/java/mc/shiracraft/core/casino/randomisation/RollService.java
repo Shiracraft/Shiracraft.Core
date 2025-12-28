@@ -37,8 +37,7 @@ public class RollService {
             return RewardType.REFUND;
         }
 
-        cumulativeChance += rollChances.pityTokenChance;
-        if (roll < cumulativeChance) {
+        if (roll < 1.0) {
             return RewardType.PITY_TOKEN;
         }
 
