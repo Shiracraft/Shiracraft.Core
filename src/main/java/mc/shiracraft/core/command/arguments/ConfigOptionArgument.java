@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class ConfigOptionArgument implements ArgumentType<String> {
 
+    // In the future this might need to be replaced with reflection on the config registry and the .getName() method of each config.
     private static final Collection<String> EXAMPLES = Arrays.asList("unlock", "rollchance", "all");
     private static final DynamicCommandExceptionType INVALID_CONFIG = new DynamicCommandExceptionType(
             config -> Component.literal("Invalid config option: " + config)

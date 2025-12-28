@@ -5,6 +5,8 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mc.shiracraft.core.command.arguments.UnlockNameArgument;
 import mc.shiracraft.core.registry.ConfigRegistry;
+import mc.shiracraft.core.unlock.Unlock;
+import mc.shiracraft.core.unlock.UnlockCategory;
 import mc.shiracraft.core.world.data.UnlockData;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -12,7 +14,9 @@ import net.minecraft.commands.arguments.selector.EntitySelector;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
@@ -47,6 +51,12 @@ public class UnlocksCommand extends Command {
                 )
                 .then(literal("reset")
                         .executes(this::reset)
+                )
+        );
+
+        builder.then(literal("list")
+                .then(argument(PlayerArgumentIdentifier, EntityArgument.player())
+                        .executes(this::list)
                 )
         );
     }
@@ -93,9 +103,60 @@ public class UnlocksCommand extends Command {
         return 1;
     }
 
+    private int list(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        if (!context.getSource().isPlayer()) return 0;
+
+        var player = getPlayer(context);
+        var unlockData = UnlockData.get();
+        var source = context.getSource();
+
+        var unlockTree = unlockData.getUnlockTree(player);
+        var allUnlocks = ConfigRegistry.UNLOCK_CONFIG.getAll();
+
+        // Group unlocks by category
+        var unlocksByCategory = allUnlocks.stream()
+                .collect(Collectors.groupingBy(Unlock::getCategory));
+
+        source.sendSystemMessage(Component.literal("§6§l========== Unlocks for " + player.getName().getString() + " =========="));
+
+        Arrays.stream(UnlockCategory.values()).forEach(category -> {
+            var categoryUnlocks = unlocksByCategory.get(category);
+
+            if (categoryUnlocks != null && !categoryUnlocks.isEmpty()) {
+                source.sendSystemMessage(Component.literal(""));
+                source.sendSystemMessage(Component.literal("§e§l" + category.getDisplayName() + ":"));
+
+                categoryUnlocks.forEach(unlock -> {
+                    var isUnlocked = unlockTree.isUnlocked(unlock.getName());
+                    var color = isUnlocked ? "§a" : "§c";
+                    var status = isUnlocked ? "✓" : "✗";
+                    source.sendSystemMessage(Component.literal("  " + color + status + " " + unlock.getName()));
+                });
+            }
+        });
+
+        source.sendSystemMessage(Component.literal(""));
+
+        var unlockedCount = allUnlocks.stream()
+                .filter(unlock -> unlockTree.isUnlocked(unlock.getName()))
+                .count();
+        var totalCount = allUnlocks.size();
+        var percentage = totalCount > 0 ? (unlockedCount * 100.0 / totalCount) : 0;
+
+        source.sendSystemMessage(Component.literal(String.format("§6Progress: §a%d§7/§e%d §6(§b%.1f%%§6)",
+                unlockedCount, totalCount, percentage)));
+        source.sendSystemMessage(Component.literal("§6§l======================================="));
+
+        return 1;
+    }
+
     private List<ServerPlayer> getPlayers(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         var playerArgument = context.getArgument(PlayerArgumentIdentifier, EntitySelector.class);
         return playerArgument.findPlayers(context.getSource());
+    }
+
+    private ServerPlayer getPlayer(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        return EntityArgument.getPlayer(context, PlayerArgumentIdentifier);
     }
 
     private String getUnlockName(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
