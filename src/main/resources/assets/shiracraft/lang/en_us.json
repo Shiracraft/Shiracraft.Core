@@ -3,5 +3,7 @@
   "item.shiracraft.slot_coin": "Slot Coin",
   "item.shiracraft.melon_soda": "Melon Soda",
   "block.shiracraft.slot_machine": "Slot Machine",
-  "creativetabs.shiracraft": "Shiracraft"
+  "creativetabs.shiracraft": "Shiracraft",
+  "key.category.shiracraft": "Shiracraft",
+  "key.shiracraft.open_unlock_screen": "Open Unlock Overview"
 }

@@ -14,6 +14,7 @@ public class SetupEvents {
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event) {
         Core.LOGGER.info("Setting up client >> {}", Minecraft.getInstance().getUser().getName());
+
     }
 
     @SubscribeEvent
