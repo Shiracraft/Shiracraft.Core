@@ -1,0 +1,12 @@
+{
+  "type": "shiracraft:add_item",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/village/village_weaponsmith"
+    }
+  ],
+  "drop_amount": 3,
+  "item": "shiracraft:slot_coin",
+  "randomise_amount": true
+}

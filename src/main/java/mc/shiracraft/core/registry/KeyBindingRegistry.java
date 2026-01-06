@@ -6,7 +6,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import org.lwjgl.glfw.GLFW;
 
-public class KeyBindings {
+public class KeyBindingRegistry {
 
     public static final String KEY_CATEGORY = "key.category." + Core.MOD_ID;
 

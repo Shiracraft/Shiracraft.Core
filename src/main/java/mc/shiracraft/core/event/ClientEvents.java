@@ -2,7 +2,7 @@ package mc.shiracraft.core.event;
 
 import mc.shiracraft.core.Core;
 import mc.shiracraft.core.gui.screen.UnlockOverviewScreen;
-import mc.shiracraft.core.registry.KeyBindings;
+import mc.shiracraft.core.registry.KeyBindingRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -15,7 +15,7 @@ public class ClientEvents
 {
     @SubscribeEvent
     public static void onKeyRegister(RegisterKeyMappingsEvent event) {
-        event.register(KeyBindings.OPEN_UNLOCK_SCREEN);
+        event.register(KeyBindingRegistry.OPEN_UNLOCK_SCREEN);
     }
 }
 
@@ -27,7 +27,7 @@ class ClientForgeEvents {
             Minecraft minecraft = Minecraft.getInstance();
 
             // Check if the unlock screen key is pressed
-            while (KeyBindings.OPEN_UNLOCK_SCREEN.consumeClick()) {
+            while (KeyBindingRegistry.OPEN_UNLOCK_SCREEN.consumeClick()) {
                 if (minecraft.player != null && minecraft.screen == null) {
                     minecraft.setScreen(new UnlockOverviewScreen(minecraft.player));
                 }
