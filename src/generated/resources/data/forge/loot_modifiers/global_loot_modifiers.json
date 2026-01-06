@@ -1,0 +1,15 @@
+{
+  "entries": [
+    "shiracraft:slot_coin_from_mineshaft",
+    "shiracraft:slot_coin_from_end_city",
+    "shiracraft:slot_coin_from_stronghold_corridor",
+    "shiracraft:slot_coin_from_dungeon",
+    "shiracraft:slot_coin_from_nether_fortress",
+    "shiracraft:slot_coin_from_jungle_temple",
+    "shiracraft:slot_coin_from_bastion",
+    "shiracraft:slot_coin_from_mob",
+    "shiracraft:slot_coin_from_village_chest",
+    "shiracraft:slot_coin_from_desert_pyramid"
+  ],
+  "replace": false
+}
