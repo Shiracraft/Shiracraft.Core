@@ -8,6 +8,8 @@ import mc.shiracraft.core.unlock.restriction.Restrictions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -19,6 +21,7 @@ public class ModUnlock extends Unlock {
 
     @Expose
     protected Set<String> modIds;
+
     @Expose
     protected Restrictions restrictions;
 
@@ -37,6 +40,7 @@ public class ModUnlock extends Unlock {
     public Restrictions getRestrictions() {
         return restrictions;
     }
+
 
     public ModUnlock withRestrictions(
             boolean hittability,

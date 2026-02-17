@@ -1,5 +1,7 @@
 package mc.shiracraft.core.entity;
 
+import mc.shiracraft.core.gui.screen.ShopScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -75,8 +77,11 @@ public class ShopkeeperEntity extends PathfinderMob {
 
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        // Placeholder: later open a trading screen or your custom shop UI.
-        return super.mobInteract(player, hand);
+        // Open the shop UI on the client.
+        if (this.level().isClientSide) {
+            Minecraft.getInstance().setScreen(new ShopScreen(player));
+        }
+        return InteractionResult.sidedSuccess(this.level().isClientSide);
     }
 
     @Override
