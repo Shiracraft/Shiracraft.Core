@@ -51,6 +51,7 @@ public class UnlockConfig extends Config {
         modUnlocks.add(
                 new ModUnlock("Minecraft", UnlockCategory.OTHER, "minecraft")
                         .withRestrictions(false, false, false, true, false)
+                        .withIcon("minecraft:grass_block")
         );
     }
 }
