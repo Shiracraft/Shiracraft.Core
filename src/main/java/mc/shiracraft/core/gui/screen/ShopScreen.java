@@ -1,5 +1,7 @@
 package mc.shiracraft.core.gui.screen;
 
+import mc.shiracraft.core.network.ShiracraftNetwork;
+import mc.shiracraft.core.network.message.PurchaseUnlockMessage;
 import mc.shiracraft.core.registry.ConfigRegistry;
 import mc.shiracraft.core.registry.ItemRegistry;
 import mc.shiracraft.core.unlock.Unlock;
@@ -158,7 +160,9 @@ public class ShopScreen extends Screen {
         int top = (this.height - windowH) / 2;
 
         // Update pity token count every frame (cheap + keeps UI responsive)
-        pityTokenCount = countItem(player, ItemRegistry.PITY_TOKEN.get().getDefaultInstance());
+        pityTokenCount = player == null
+                ? 0
+                : player.getInventory().countItem(ItemRegistry.PITY_TOKEN.get());
 
         // Window
         g.fill(left, top, left + windowW, top + windowH, WINDOW_BG);
@@ -326,17 +330,6 @@ public class ShopScreen extends Screen {
         return mx >= x && my >= y && mx < x + w && my < y + h;
     }
 
-    private static int countItem(Player player, ItemStack match) {
-        if (player == null) return 0;
-        int total = 0;
-        for (ItemStack stack : player.getInventory().items) {
-            if (ItemStack.isSameItemSameTags(stack, match)) {
-                total += stack.getCount();
-            }
-        }
-        return total;
-    }
-
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button != 0) return super.mouseClicked(mouseX, mouseY, button);
@@ -359,12 +352,25 @@ public class ShopScreen extends Screen {
             tx += TAB_W + TAB_GAP;
         }
 
-        // Start dragging canvas if clicking inside it
+        // Canvas viewport
         int canvasX = left + WINDOW_PAD;
         int canvasY = top + HEADER_H;
         int canvasW = windowW - (WINDOW_PAD * 2);
         int canvasH = windowH - HEADER_H - FOOTER_H;
 
+        // Card click handling (request purchase)
+        for (ShopCard card : cards) {
+            int cx = canvasX + (int) Math.round(card.canvasX - viewX);
+            int cy = canvasY + (int) Math.round(card.canvasY - viewY);
+            if (isInside(mouseX, mouseY, cx, cy, CARD_SIZE, CARD_SIZE)) {
+                if (!card.unlocked) {
+                    ShiracraftNetwork.CHANNEL.sendToServer(new PurchaseUnlockMessage(card.unlock.getName(), card.price));
+                }
+                return true;
+            }
+        }
+
+        // Start dragging canvas if clicking inside it
         if (isInside(mouseX, mouseY, canvasX, canvasY, canvasW, canvasH)) {
             draggingCanvas = true;
             dragStartMouseX = mouseX;
@@ -403,6 +409,14 @@ public class ShopScreen extends Screen {
         viewY -= delta * 18.0;
         viewY = Mth.clamp(viewY, -2000, 2000);
         return true;
+    }
+
+    /**
+     * Called client-side after the server processes a purchase.
+     */
+    public void onServerResponse() {
+        // Refresh UI after any result.
+        rebuildCards();
     }
 
     private record ShopCard(Unlock unlock, int canvasX, int canvasY, boolean unlocked, boolean unlockable, boolean affordable, int price) {

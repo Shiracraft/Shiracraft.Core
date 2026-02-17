@@ -2,6 +2,8 @@ package mc.shiracraft.core.network;
 
 import mc.shiracraft.core.Core;
 import mc.shiracraft.core.network.message.UnlockTreeMessage;
+import mc.shiracraft.core.network.message.PurchaseUnlockMessage;
+import mc.shiracraft.core.network.message.PurchaseUnlockResultMessage;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 
@@ -26,6 +28,18 @@ public class ShiracraftNetwork {
                 .encoder(UnlockTreeMessage::encode)
                 .decoder(UnlockTreeMessage::decode)
                 .consumerMainThread(UnlockTreeMessage::handle)
+                .add();
+
+        CHANNEL.messageBuilder(PurchaseUnlockMessage.class, nextId())
+                .encoder(PurchaseUnlockMessage::encode)
+                .decoder(PurchaseUnlockMessage::decode)
+                .consumerMainThread(PurchaseUnlockMessage::handle)
+                .add();
+
+        CHANNEL.messageBuilder(PurchaseUnlockResultMessage.class, nextId())
+                .encoder(PurchaseUnlockResultMessage::encode)
+                .decoder(PurchaseUnlockResultMessage::decode)
+                .consumerMainThread(PurchaseUnlockResultMessage::handle)
                 .add();
 
         Core.LOGGER.info("Network messages registered!");
