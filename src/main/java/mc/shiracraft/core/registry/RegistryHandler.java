@@ -15,6 +15,7 @@ public final class RegistryHandler {
         CreativeTabsRegistry.register(eventBus);
         CommandArgumentRegistry.register(eventBus);
         LootModifierRegistry.register(eventBus);
+        EntityRegistry.register(eventBus);
     }
 
     public static void registerConfigs() {
