@@ -1,10 +1,13 @@
 package mc.shiracraft.core.event;
 
 import mc.shiracraft.core.Core;
+import mc.shiracraft.core.entity.client.ShopkeeperRenderer;
 import mc.shiracraft.core.gui.screen.UnlockOverviewScreen;
+import mc.shiracraft.core.registry.EntityRegistry;
 import mc.shiracraft.core.registry.KeyBindingRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,6 +19,11 @@ public class ClientEvents
     @SubscribeEvent
     public static void onKeyRegister(RegisterKeyMappingsEvent event) {
         event.register(KeyBindingRegistry.OPEN_UNLOCK_SCREEN);
+    }
+
+    @SubscribeEvent
+    public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(EntityRegistry.SHOPKEEPER.get(), ShopkeeperRenderer::new);
     }
 }
 
