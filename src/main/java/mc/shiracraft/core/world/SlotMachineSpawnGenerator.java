@@ -4,6 +4,7 @@ import mc.shiracraft.core.Core;
 import mc.shiracraft.core.registry.BlockRegistry;
 import mc.shiracraft.core.unlock.UnlockCategory;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
@@ -35,7 +36,7 @@ public class SlotMachineSpawnGenerator extends SavedData {
         );
     }
 
-    public static SlotMachineSpawnGenerator load(net.minecraft.nbt.CompoundTag tag) {
+    public static SlotMachineSpawnGenerator load(CompoundTag tag) {
         SlotMachineSpawnGenerator data = new SlotMachineSpawnGenerator();
         data.hasGenerated = tag.getBoolean("HasGenerated");
         return data;
@@ -43,7 +44,7 @@ public class SlotMachineSpawnGenerator extends SavedData {
 
     @Nonnull
     @Override
-    public net.minecraft.nbt.CompoundTag save(net.minecraft.nbt.CompoundTag tag) {
+    public CompoundTag save(CompoundTag tag) {
         tag.putBoolean("HasGenerated", hasGenerated);
         return tag;
     }
